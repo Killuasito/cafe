@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { toast } from "react-hot-toast";
 import { db } from "../../firebase/config";
+import { FiArrowLeft } from "react-icons/fi";
 import {
   collection,
   query,
@@ -11,6 +12,7 @@ import {
   updateDoc,
   orderBy,
 } from "firebase/firestore";
+import { motion } from "framer-motion";
 
 function OrderManagement() {
   const [orders, setOrders] = useState([]);
@@ -87,9 +89,19 @@ function OrderManagement() {
 
   return (
     <div className="max-w-7xl mx-auto p-6 pt-32">
-      <h1 className="text-3xl font-bold text-yellow-950 mb-6">
-        Gerenciamento de Pedidos
-      </h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-yellow-950">
+          Gerenciamento de Pedidos
+        </h1>
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Link
+            to="/admin"
+            className="flex items-center px-4 py-2 bg-yellow-900 text-white rounded-lg hover:bg-yellow-800 transition-colors duration-300"
+          >
+            <FiArrowLeft className="mr-2" /> Voltar ao Dashboard
+          </Link>
+        </motion.div>
+      </div>
 
       {/* Filter Controls */}
       <div className="mb-6 flex gap-4">

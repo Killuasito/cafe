@@ -5,7 +5,6 @@ import { useAuth } from "../contexts/AuthContext";
 import { useCart } from "../contexts/CartContext";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import { PiCoffeeBeanFill } from "react-icons/pi";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,13 +50,13 @@ const Navbar = () => {
     <nav className="bg-white shadow-sm py-4 fixed w-full top-0 z-50 transition-all duration-300">
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <PiCoffeeBeanFill className="text-yellow-950 text-2xl" />
-          <Link
-            to="/"
-            className="text-2xl font-bold text-yellow-950 hover:text-yellow-800 transition-colors duration-300"
-          >
-            ViviGrano
+        <div className="flex items-center">
+          <Link to="/" className="transition-colors duration-300">
+            <img
+              src="../../Logo-ViviGrano-Marrom-Deitado-SF.png"
+              alt="ViviGrano Logo"
+              className="h-16"
+            />
           </Link>
         </div>
 
@@ -75,25 +74,25 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-8">
           <Link
             to="/"
-            className="text-gray-700 hover:text-yellow-950 transition-colors duration-300 font-medium"
+            className="text-gray-700 hover:text-yellow-950 transition-colors duration-300 font-medium text-lg"
           >
             Início
           </Link>
           <Link
             to="/products"
-            className="text-gray-700 hover:text-yellow-950 transition-colors duration-300 font-medium"
+            className="text-gray-700 hover:text-yellow-950 transition-colors duration-300 font-medium text-lg"
           >
             Produtos
           </Link>
           <Link
             to="/about"
-            className="text-gray-700 hover:text-yellow-950 transition-colors duration-300 font-medium"
+            className="text-gray-700 hover:text-yellow-950 transition-colors duration-300 font-medium text-lg"
           >
             Sobre
           </Link>
           <Link
             to="/contact"
-            className="text-gray-700 hover:text-yellow-950 transition-colors duration-300 font-medium"
+            className="text-gray-700 hover:text-yellow-950 transition-colors duration-300 font-medium text-lg"
           >
             Contato
           </Link>
@@ -103,7 +102,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-6">
           <div className="relative group">
             <Link to="/profile" className="text-gray-700 hover:text-yellow-950">
-              <FiUser size={20} />
+              <FiUser size={24} />
             </Link>
             <div
               className="absolute right-0 w-48 bg-white shadow-lg rounded-md mt-2 py-2 z-10 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out"
@@ -167,7 +166,7 @@ const Navbar = () => {
             to="/cart"
             className="relative text-gray-700 hover:text-yellow-950 transition-colors duration-300"
           >
-            <FiShoppingCart size={20} />
+            <FiShoppingCart size={24} />
             {cartItemsCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-yellow-950 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs transform transition-transform duration-300 hover:scale-110">
                 {cartItemsCount}

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FiMail, FiLock, FiAlertCircle } from "react-icons/fi";
+import { FiMail, FiLock, FiAlertCircle, FiUser } from "react-icons/fi";
 import { useAuth } from "../contexts/AuthContext";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,6 +18,37 @@ const Login = () => {
   // Verifica se há um redirecionamento na URL
   const queryParams = new URLSearchParams(location.search);
   const redirectTo = queryParams.get("redirect");
+
+  // Animation variants
+  const pageVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.6 },
+    },
+  };
+
+  const formVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+        duration: 0.6,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 300, damping: 24 },
+    },
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,22 +71,67 @@ const Login = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 pt-32">
-      <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
-        <div className="bg-yellow-950 p-6">
+    <motion.div
+      className="min-h-screen flex items-center justify-center px-4 py-20 md:py-24"
+      initial="hidden"
+      animate="visible"
+      variants={pageVariants}
+    >
+      <motion.div
+        className="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300"
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        whileHover={{
+          boxShadow:
+            "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+        }}
+      >
+        <motion.div
+          className="bg-yellow-950 p-8"
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+        >
+          <div className="flex justify-center mb-3">
+            <motion.div
+              className="bg-white p-3 rounded-full"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+                delay: 0.3,
+              }}
+            >
+              <FiUser className="text-yellow-950 text-2xl" />
+            </motion.div>
+          </div>
           <h2 className="text-2xl font-bold text-white text-center">Login</h2>
-        </div>
+          <p className="text-yellow-100 text-center mt-2">Bem-vindo de volta</p>
+        </motion.div>
 
-        <div className="p-6">
+        <motion.div
+          className="p-8"
+          variants={formVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md flex items-start">
+            <motion.div
+              className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md flex items-start"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              transition={{ duration: 0.3 }}
+            >
               <FiAlertCircle className="text-red-500 mr-2 mt-0.5 flex-shrink-0" />
               <p className="text-sm text-red-700">{error}</p>
-            </div>
+            </motion.div>
           )}
 
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
+            <motion.div className="mb-5" variants={itemVariants}>
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-1"
@@ -70,14 +147,14 @@ const Login = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-950 focus:border-yellow-950 transition-all duration-300"
+                  className="w-full p-3 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-950 focus:border-yellow-950 transition-all duration-300"
                   placeholder="seu@email.com"
                   required
                 />
               </div>
-            </div>
+            </motion.div>
 
-            <div className="mb-4">
+            <motion.div className="mb-6" variants={itemVariants}>
               <div className="flex items-center justify-between mb-1">
                 <label
                   htmlFor="password"
@@ -85,12 +162,17 @@ const Login = () => {
                 >
                   Senha
                 </label>
-                <Link
-                  to="/forgot-password"
-                  className="text-sm text-yellow-950 hover:text-yellow-800 transition-colors duration-300"
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  Esqueceu a senha?
-                </Link>
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm text-yellow-950 hover:text-yellow-800 transition-colors duration-300"
+                  >
+                    Esqueceu a senha?
+                  </Link>
+                </motion.div>
               </div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -101,45 +183,61 @@ const Login = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full p-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-950 focus:border-yellow-950 transition-all duration-300"
+                  className="w-full p-3 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-950 focus:border-yellow-950 transition-all duration-300"
                   placeholder="********"
                   required
                 />
               </div>
-            </div>
+            </motion.div>
 
-            <div className="mb-6">
-              <button
+            <motion.div className="mb-8" variants={itemVariants}>
+              <motion.button
                 type="submit"
-                className="w-full px-6 py-3 bg-yellow-950 text-white rounded-md hover:bg-yellow-800 transition-colors duration-300"
+                className="w-full px-6 py-4 bg-yellow-950 text-white rounded-md hover:bg-yellow-800 transition-all duration-300"
                 disabled={loading}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 {loading ? (
                   <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
+                    <motion.div
+                      className="h-5 w-5 border-2 border-white border-t-transparent rounded-full mr-2"
+                      animate={{ rotate: 360 }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
+                    />
                     Entrando...
                   </div>
                 ) : (
                   "Entrar"
                 )}
-              </button>
-            </div>
-          </form>
+              </motion.button>
+            </motion.div>
 
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              Não tem uma conta?{" "}
-              <Link
-                to="/register"
-                className="text-yellow-950 hover:text-yellow-800 transition-colors duration-300 font-medium"
-              >
-                Cadastre-se aqui
-              </Link>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+            <motion.div className="text-center" variants={itemVariants}>
+              <p className="text-sm text-gray-600">
+                Não tem uma conta?{" "}
+                <motion.span
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{ display: "inline-block" }}
+                >
+                  <Link
+                    to="/register"
+                    className="text-yellow-950 hover:text-yellow-800 transition-colors duration-300 font-medium"
+                  >
+                    Cadastre-se aqui
+                  </Link>
+                </motion.span>
+              </p>
+            </motion.div>
+          </form>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 

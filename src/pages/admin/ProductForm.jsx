@@ -168,7 +168,7 @@ const ProductForm = () => {
               {isEditMode ? "Editar Produto" : "Novo Produto"}
             </h1>
             <button
-              onClick={() => navigate("/admin/products")}
+              onClick={() => navigate("/admin")}
               className="flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors duration-300"
             >
               <FiArrowLeft size={18} className="mr-2" /> Voltar
