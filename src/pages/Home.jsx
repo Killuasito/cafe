@@ -240,13 +240,13 @@ const Home = () => {
               <motion.div key={category.slug} variants={itemVariant}>
                 <Link
                   to={`/products?category=${category.slug}`}
-                  className="group relative h-80 rounded-2xl overflow-hidden shadow-lg transform transition-all duration-500 hover:scale-[1.02]"
+                  className="group relative h-80 rounded-2xl overflow-hidden shadow-lg transform transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20 z-10"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20 z-10 transition-transform duration-500 group-hover:scale-110 rounded-2xl"></div>
                   <img
                     src={category.image}
                     alt={category.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-2xl"
                     loading="lazy"
                   />
                   <div className="absolute bottom-0 left-0 right-0 p-6 z-20">

@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { FiUser, FiMail, FiPhone, FiEdit } from "react-icons/fi";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
+import { motion } from "framer-motion";
 
 function Profile() {
   const { currentUser } = useAuth();
@@ -45,10 +46,17 @@ function Profile() {
   }, [currentUser]);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    // Limita o campo de telefone ao formato (11) 11111-1111
+    if (name === "phone") {
+      const formattedValue = value
+        .replace(/\D/g, "") // Remove caracteres não numéricos
+        .replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3"); // Formata o telefone
+      setFormData((prev) => ({ ...prev, [name]: formattedValue }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -73,20 +81,41 @@ function Profile() {
     }
   };
 
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 pt-32">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-gradient-to-r from-yellow-900 to-yellow-800 rounded-xl shadow-lg p-6 mb-8">
+    <motion.div
+      className="min-h-screen bg-gray-50 pt-32"
+      initial="hidden"
+      animate="visible"
+      variants={staggerContainer}
+    >
+      <motion.div className="max-w-4xl mx-auto px-4 py-8" variants={fadeInUp}>
+        <motion.div
+          className="bg-gradient-to-r from-yellow-900 to-yellow-800 rounded-xl shadow-lg p-6 mb-8"
+          variants={fadeInUp}
+        >
           <h1 className="text-3xl font-bold text-white">Meu Perfil</h1>
           <p className="text-yellow-100 mt-2">
             Gerencie suas informações pessoais
           </p>
-        </div>
+        </motion.div>
 
-        <div className="bg-white rounded-xl shadow-lg p-8">
+        <motion.div
+          className="bg-white rounded-xl shadow-lg p-8"
+          variants={fadeInUp}
+        >
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
+              <motion.div variants={fadeInUp}>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Nome Completo
                 </label>
@@ -103,9 +132,9 @@ function Profile() {
                     placeholder="Seu nome completo"
                   />
                 </div>
-              </div>
+              </motion.div>
 
-              <div>
+              <motion.div variants={fadeInUp}>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Email
                 </label>
@@ -124,9 +153,9 @@ function Profile() {
                 <p className="mt-1 text-sm text-gray-500">
                   O email não pode ser alterado
                 </p>
-              </div>
+              </motion.div>
 
-              <div>
+              <motion.div variants={fadeInUp}>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Telefone
                 </label>
@@ -140,13 +169,17 @@ function Profile() {
                     value={formData.phone}
                     onChange={handleChange}
                     className="pl-10 w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-300"
-                    placeholder="(00) 00000-0000"
+                    placeholder="(11) 11111-1111"
+                    maxLength="15"
                   />
                 </div>
-              </div>
+              </motion.div>
             </div>
 
-            <div className="border-t border-gray-200 pt-6 mt-6">
+            <motion.div
+              className="border-t border-gray-200 pt-6 mt-6"
+              variants={fadeInUp}
+            >
               <button
                 type="submit"
                 className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-yellow-900 to-yellow-700 text-white rounded-lg hover:from-yellow-800 hover:to-yellow-600 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
@@ -154,36 +187,48 @@ function Profile() {
                 <FiEdit size={18} />
                 <span>Atualizar Perfil</span>
               </button>
-            </div>
+            </motion.div>
           </form>
-        </div>
+        </motion.div>
 
         {/* Activity Section */}
-        <div className="mt-8 bg-white rounded-xl shadow-lg p-8">
+        <motion.div
+          className="mt-8 bg-white rounded-xl shadow-lg p-8"
+          variants={fadeInUp}
+        >
           <h2 className="text-xl font-semibold text-yellow-900 mb-6">
             Informações da Conta
           </h2>
           <div className="space-y-4">
-            <div className="flex justify-between py-3 border-b border-gray-100">
+            <motion.div
+              className="flex justify-between py-3 border-b border-gray-100"
+              variants={fadeInUp}
+            >
               <span className="text-gray-600">Status da Conta</span>
               <span className="text-green-600 font-medium">Ativa</span>
-            </div>
-            <div className="flex justify-between py-3 border-b border-gray-100">
+            </motion.div>
+            <motion.div
+              className="flex justify-between py-3 border-b border-gray-100"
+              variants={fadeInUp}
+            >
               <span className="text-gray-600">Membro desde</span>
               <span className="text-gray-900">
                 {new Date().toLocaleDateString("pt-BR")}
               </span>
-            </div>
-            <div className="flex justify-between py-3">
+            </motion.div>
+            <motion.div
+              className="flex justify-between py-3"
+              variants={fadeInUp}
+            >
               <span className="text-gray-600">Último acesso</span>
               <span className="text-gray-900">
                 {new Date().toLocaleDateString("pt-BR")}
               </span>
-            </div>
+            </motion.div>
           </div>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }
 

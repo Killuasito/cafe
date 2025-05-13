@@ -7,9 +7,24 @@ import {
   FiMapPin,
   FiPhone,
 } from "react-icons/fi";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   const year = new Date().getFullYear();
+
+  const footerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut", staggerChildren: 0.2 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
 
   const SocialButton = ({ href, icon: Icon }) => (
     <a
@@ -23,16 +38,27 @@ const Footer = () => {
   );
 
   return (
-    <footer className="relative">
+    <motion.footer
+      className="relative"
+      initial="hidden"
+      animate="visible"
+      variants={footerVariants}
+    >
       {/* Decorative top border */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-900 via-yellow-800 to-yellow-900"></div>
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-900 via-yellow-800 to-yellow-900"
+        variants={itemVariants}
+      ></motion.div>
 
       <div className="bg-gradient-to-b from-yellow-950 to-yellow-900">
         {/* Main Footer Content */}
-        <div className="container mx-auto px-4 py-16">
+        <motion.div
+          className="container mx-auto px-4 py-16"
+          variants={itemVariants}
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             {/* Brand Section */}
-            <div className="space-y-6">
+            <motion.div className="space-y-6" variants={itemVariants}>
               <Link to="/" className="block">
                 <h2 className="text-2xl font-bold text-white">Café Gourmet</h2>
               </Link>
@@ -46,10 +72,10 @@ const Footer = () => {
                 <SocialButton href="https://instagram.com" icon={FiInstagram} />
                 <SocialButton href="https://twitter.com" icon={FiTwitter} />
               </div>
-            </div>
+            </motion.div>
 
             {/* Quick Links */}
-            <div>
+            <motion.div variants={itemVariants}>
               <h3 className="text-white font-semibold mb-6 text-lg">
                 Links Rápidos
               </h3>
@@ -70,10 +96,10 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
 
             {/* Contact Info */}
-            <div>
+            <motion.div variants={itemVariants}>
               <h3 className="text-white font-semibold mb-6 text-lg">Contato</h3>
               <div className="space-y-4">
                 <div className="flex items-start text-yellow-100/80">
@@ -100,10 +126,10 @@ const Footer = () => {
                   </a>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Business Hours */}
-            <div>
+            <motion.div variants={itemVariants}>
               <h3 className="text-white font-semibold mb-6 text-lg">
                 Horário de Funcionamento
               </h3>
@@ -124,12 +150,15 @@ const Footer = () => {
                   Fechado
                 </li>
               </ul>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-yellow-800/30">
+        <motion.div
+          className="border-t border-yellow-800/30"
+          variants={itemVariants}
+        >
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-yellow-100/60 text-sm">
@@ -151,9 +180,9 @@ const Footer = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </footer>
+    </motion.footer>
   );
 };
 

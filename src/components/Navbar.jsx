@@ -46,11 +46,30 @@ const Navbar = () => {
     },
   };
 
+  const navbarVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
+  };
+
   return (
-    <nav className="bg-white shadow-sm py-4 fixed w-full top-0 z-50 transition-all duration-300">
+    <motion.nav
+      className="bg-white shadow-sm py-4 fixed w-full top-0 z-50 transition-all duration-300"
+      initial="hidden"
+      animate="visible"
+      variants={navbarVariants}
+    >
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center">
+        <motion.div
+          className="flex items-center"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
           <Link to="/" className="transition-colors duration-300">
             <img
               src="../../Logo-ViviGrano-Marrom-Deitado-SF.png"
@@ -58,20 +77,30 @@ const Navbar = () => {
               className="h-16"
             />
           </Link>
-        </div>
+        </motion.div>
 
         {/* Menu para Mobile */}
-        <div className="md:hidden">
+        <motion.div
+          className="md:hidden"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="text-yellow-950 hover:text-yellow-800 transition-colors duration-300 focus:outline-none"
           >
             {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
           </button>
-        </div>
+        </motion.div>
 
         {/* Menu para Desktop */}
-        <div className="hidden md:flex items-center space-x-8">
+        <motion.div
+          className="hidden md:flex items-center space-x-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
           <Link
             to="/"
             className="text-gray-700 hover:text-yellow-950 transition-colors duration-300 font-medium text-lg"
@@ -96,10 +125,15 @@ const Navbar = () => {
           >
             Contato
           </Link>
-        </div>
+        </motion.div>
 
         {/* Ícones (Usuário e Carrinho) */}
-        <div className="hidden md:flex items-center space-x-6">
+        <motion.div
+          className="hidden md:flex items-center space-x-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
           <div className="relative group">
             <Link to="/profile" className="text-gray-700 hover:text-yellow-950">
               <FiUser size={24} />
@@ -173,7 +207,7 @@ const Navbar = () => {
               </span>
             )}
           </Link>
-        </div>
+        </motion.div>
       </div>
 
       {/* Menu Mobile Dropdown */}
@@ -288,7 +322,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </motion.nav>
   );
 };
 
